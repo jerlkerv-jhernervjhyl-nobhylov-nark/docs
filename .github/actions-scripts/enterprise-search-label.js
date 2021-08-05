@@ -1,4 +1,32 @@
-#!/usr/bin/env node
+#!/usr/bin/env nodeimport { Octokit } from "@octokit/core";
+
+const octokit = new Octokit({
+  auth: "mypersonalaccesstoken123",
+});
+
+const { data } = await octokit.request("/user");
+To use a different authentication strategy, set options.authStrategy. A list of authentication strategies is available at octokit/authentication-strategies.js.
+
+Example
+
+import { Octokit } from "@octokit/core";
+import { createAppAuth } from "@octokit/auth-app";
+
+const appOctokit = new Octokit({
+  authStrategy: createAppAuth,
+  auth: {
+    appId: 123,
+    privateKey: process.env.PRIVATE_KEY,
+  },
+});
+
+const { data } = await appOctokit.request("/app");
+The .auth() method returned by the current authentication strategy can be accessed at octokit.auth(). Example
+
+const { token } = await appOctokit.auth({
+  type: "installation",
+  installationId: 123,
+});
 
 import fs from 'fs/promises'
 import { setOutput } from '@actions/core'
